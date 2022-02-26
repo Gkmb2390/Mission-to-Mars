@@ -12,7 +12,7 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
 
     news_title, news_paragraph = mars_news(browser)
-    hemisphere_image_urls = hemispheres(browser)
+    hemisphere_image_urls = hemisphere(browser)
     # Run all scraping functions and store results in a dictionary
     data = {
         "news_title": news_title,
@@ -78,8 +78,8 @@ def featured_image(browser):
         return None
 
     # Use the base url to create an absolute url
-    img_url = f'https://spaceimages-mars.com//{img_url_rel}'
-
+    img_url = f'{url}/{img_url_rel}'
+    print(img_url)
     return img_url
 
 def mars_facts():
@@ -97,7 +97,7 @@ def mars_facts():
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html(classes="table table-striped")
 ### Challenge Code
-def hemispheres(browser):
+def hemisphere(browser):
     url = 'https://marshemispheres.com/'
     print(f'visting {url}')
     browser.visit(url)
@@ -113,7 +113,7 @@ def hemispheres(browser):
         img_url_rel = img_soup.find('img',class_='wide-image').get('src')
         print(img_url_rel)
         # Use the base url to create an absolute url
-        img_url = f'https://spaceimages-mars.com/{img_url_rel}'
+        img_url = f'{url}{img_url_rel}'
         title = img_soup.find('h2').text
         #Clicks Back Button to Return to Main Homepage
         full_image_elem = browser.find_by_tag('h3')[1]
